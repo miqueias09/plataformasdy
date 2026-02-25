@@ -233,7 +233,71 @@
             `).join('');
         }
 
-        // Registrar clique
+        // // ===============================
+// Registrar clique (CORRIGIDO iPhone)
+// ===============================
+function registerClick(platformId, platformName, platformUrl) {
+  // 0) valida URL
+  if (!platformUrl || !(platformUrl.startsWith("http://") || platformUrl.startsWith("https://"))) {
+    showToast("Link inválido. Verifique a URL.");
+    return;
+  }
+
+  // 1) ABRIR PRIMEIRO (ação direta do usuário)
+  // tenta nova aba, se bloquear cai para mesma aba
+  const w = window.open(platformUrl, "_blank", "noopener,noreferrer");
+  if (!w) {
+    window.location.href = platformUrl; // fallback (não costuma ser bloqueado)
+  }
+
+  // 2) Registrar no backend SEM await (para não bloquear abertura no iOS)
+  const payload = {
+    platform_id: platformId,
+    platform_name: platformName,
+    platform_url: platformUrl,
+    ts: Date.now()
+  };
+
+  try {
+    // Melhor no iPhone quando troca de aba/página
+    navigator.sendBeacon(
+      "/api/click",
+      new Blob([JSON.stringify(payload)], { type: "application/json" })
+    );
+  } catch (e) {
+    // Fallback
+    fetch("/api/click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  // 3) Toast
+  showToast("Clique registrado!");
+}
+
+// ===============================
+// Toast (mensagem na tela)
+// ===============================
+function showToast(message) {
+  // Se você já tem <span id="toastMessage">...</span>, atualiza
+  const msg = document.getElementById("toastMessage");
+  if (msg) msg.textContent = message;
+
+  // Se você tem um container de toast (ex.: id="toast"), mostra/oculta
+  const toast = document.getElementById("toast");
+  if (toast) {
+    toast.classList.add("show");
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 1500);
+  } else {
+    // fallback se não existir toast visual
+    console.log(message);
+  }
+}
+
         async function registerClick(platformId, platformName, platformUrl) {
             try {
                 // Registrar no backend
