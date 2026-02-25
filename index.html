@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLATAFORMAS DA DY - Faça seu cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0A0E27 0%, #1A1E3F 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FF71CE, #01CDFE, #FFFB96);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #FFFB96;
+            margin-bottom: 20px;
+        }
+
+        .disclaimer {
+            font-size: 0.9rem;
+            color: #ccc;
+            opacity: 0.8;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .platform-card {
+            background: rgba(19, 24, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-5px);
+            border-color: #FF71CE;
+            box-shadow: 0 10px 30px rgba(255, 113, 206, 0.3);
+        }
+
+        .platform-card.pink { border-color: rgba(255, 113, 206, 0.3); }
+        .platform-card.blue { border-color: rgba(1, 205, 254, 0.3); }
+        .platform-card.yellow { border-color: rgba(255, 251, 150, 0.3); }
+
+        .platform-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .platform-card.pink .platform-icon { color: #FF71CE; }
+        .platform-card.blue .platform-icon { color: #01CDFE; }
+        .platform-card.yellow .platform-icon { color: #FFFB96; }
+
+        .platform-name {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .btn-cadastro {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-cadastro.pink {
+            background: #FF71CE;
+            color: #0A0E27;
+        }
+
+        .btn-cadastro.blue {
+            background: #01CDFE;
+            color: #0A0E27;
+        }
+
+        .btn-cadastro.yellow {
+            background: #FFFB96;
+            color: #0A0E27;
+        }
+
+        .btn-cadastro:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px currentColor;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(19, 24, 46, 0.95);
+            border: 1px solid #FF71CE;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(255, 113, 206, 0.5);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            display: none;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 PLATAFORMAS DA DY</h1>
+            <p class="tagline">Faça seu cadastro e tente sua fezinha</p>
+            <p class="disclaimer">⚠️ Resultados variam. Não há garantia de ganhos.</p>
+        </header>
+
+        <div class="platforms-grid" id="platformsGrid">
+            <!-- Plataformas serão carregadas aqui -->
+        </div>
+
+        <footer>
+            <p>© 2024 PLATAFORMAS DA DY - Todos os direitos reservados</p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">Este é um site demonstrativo. Jogue com responsabilidade.</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle" style="color: #4CAF50; margin-right: 10px;"></i>
+        <span id="toastMessage">Clique registrado!</span>
+    </div>
+
+    <script>
+        // Lista das 13 plataformas
+        const platforms = [
+            { id: 'dificilpg', name: 'DifícilPG', url: 'https://www.dificilpg.com/?id=820678895', icon: 'fa-dice', color: 'pink' },
+            { id: 'livrariapg', name: 'LivrariaPG', url: 'https://www.livrariapg.com/?id=218911262', icon: 'fa-book', color: 'blue' },
+            { id: 'vidropg', name: 'VidroPG', url: 'https://www.vidropg.com/?id=346124845', icon: 'fa-glass-whiskey', color: 'yellow' },
+            { id: 'onigiripg', name: 'OnigiriPG', url: 'https://www.onigiripg.com/?id=903377037', icon: 'fa-star', color: 'pink' },
+            { id: 'menupg', name: 'MenuPG', url: 'https://www.menupg.com/?id=195155807', icon: 'fa-utensils', color: 'blue' },
+            { id: 'dormirpg', name: 'DormirPG', url: 'https://www.dormirpg.com/?id=960234379', icon: 'fa-bed', color: 'yellow' },
+            { id: 'vagapg', name: 'VagaPG', url: 'https://www.vagapg.com/?id=425396638', icon: 'fa-briefcase', color: 'pink' },
+            { id: 'reuniaopg', name: 'ReuniãoPG', url: 'https://www.reuniaopg.com/?id=331002292', icon: 'fa-users', color: 'blue' },
+            { id: 'pintarpg', name: 'PintarPG', url: 'https://www.pintarpg.com/?id=779370892', icon: 'fa-palette', color: 'yellow' },
+            { id: 'alunopg', name: 'AlunoPG', url: 'https://www.alunopg.com/?id=451359576', icon: 'fa-graduation-cap', color: 'pink' },
+            { id: 'quadrapg', name: 'QuadraPG', url: 'https://www.quadrapg.com/?id=614739332', icon: 'fa-th-large', color: 'blue' },
+            { id: 'sinalpg', name: 'SinalPG', url: 'https://www.sinalpg.com/?id=923101048', icon: 'fa-signal', color: 'yellow' },
+            { id: 'debaixopg', name: 'DebaixoPG', url: 'https://www.debaixopg.com/?id=908763056', icon: 'fa-arrow-down', color: 'pink' }
+        ];
+
+        // Renderizar plataformas
+        function renderPlatforms() {
+            const grid = document.getElementById('platformsGrid');
+            grid.innerHTML = platforms.map(platform => `
+                <div class="platform-card ${platform.color}">
+                    <div class="platform-icon">
+                        <i class="fas ${platform.icon}"></i>
+                    </div>
+                    <h3 class="platform-name">${platform.name}</h3>
+                    <button class="btn-cadastro ${platform.color}" onclick="registerClick('${platform.id}', '${platform.name}', '${platform.url}')">
+                        <i class="fas fa-user-plus"></i> CADASTRE-SE
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Registrar clique
+        async function registerClick(platformId, platformName, platformUrl) {
+            try {
+                // Registrar no backend
+                const response = await fetch('/api/click', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        platform_id: platformId,
+                        platform_name: platformName,
+                        platform_url: platformUrl
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('Clique registrado!');
+                }
+
+                // Abrir link em nova aba
+                window.open(platformUrl, '_blank');
+
+            } catch (error) {
+                console.error('Erro ao registrar clique:', error);
+                // Abrir link mesmo se houver erro
+                window.open(platformUrl, '_blank');
+            }
+        }
+
+        // Mostrar toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Inicializar
+        renderPlatforms();
+    </script>
+</body>
+</html>
