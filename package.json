@@ -1,0 +1,21 @@
+{
+  "name": "plataformas-dy",
+  "version": "1.0.0",
+  "description": "Sistema de rastreamento de cliques com admin protegido",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["tracking", "clicks", "admin", "sqlite"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
