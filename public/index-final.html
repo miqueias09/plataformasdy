@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#081027" />
+  <title>Plataformas da DY</title>
+
+  <!-- Ícones (Font Awesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg1:#070b1a;
+      --bg2:#0c1740;
+      --card:#0b1638;
+      --text:#e9eefc;
+      --muted:#a9b4d0;
+      --accent:#29c7ff;
+      --accent2:#7c3aed;
+      --warn:#facc15;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(900px 520px at 10% 0%, rgba(41,199,255,.25), transparent 60%),
+        radial-gradient(900px 520px at 90% 0%, rgba(124,58,237,.20), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+    }
+
+    .wrap{ max-width: 980px; margin:0 auto; padding: 26px 16px 48px; }
+
+    header{ text-align:center; margin-bottom: 18px; }
+    .emoji{ font-size:22px; opacity:.95; }
+    .title{ font-weight: 900; letter-spacing:.5px; font-size: 34px; margin: 8px 0 0; color: var(--accent); }
+    .subtitle{ margin: 10px 0 0; font-size: 18px; color:#ffd36b; }
+    .note{ margin: 18px auto 0; max-width: 560px; color: var(--muted); display:flex; gap:10px; justify-content:center; align-items:center; line-height:1.35; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    @media(min-width: 760px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .card{
+      background: rgba(11,22,56,.72);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    .left{ display:flex; align-items:center; gap: 12px; min-width: 0; }
+
+    .icon{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      flex: 0 0 auto;
+    }
+    .icon.pink{ box-shadow: 0 0 0 4px rgba(236,72,153,.12); }
+    .icon.blue{ box-shadow: 0 0 0 4px rgba(41,199,255,.12); }
+    .icon.yellow{ box-shadow: 0 0 0 4px rgba(250,204,21,.10); }
+
+    .meta{ min-width:0; }
+    .name{ font-weight: 900; margin:0; font-size: 16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .small{ margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+
+    /* Botão = LINK REAL (não depende de window.open) */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      border: 1px solid rgba(41,199,255,.25);
+      background: linear-gradient(135deg, rgba(41,199,255,.95), rgba(124,58,237,.75));
+      color: #061029;
+      text-decoration:none;
+      min-width: 150px;
+      text-align:center;
+      user-select:none;
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    footer{ text-align:center; color: var(--muted); margin-top: 28px; line-height:1.6; }
+    .hr{ height:1px; background: rgba(255,255,255,.12); margin: 22px auto; max-width: 720px; }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(6,16,41,.92);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      display:none;
+      align-items:center;
+      gap:10px;
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+      font-size: 13px;
+      max-width: calc(100vw - 24px);
+    }
+    .toast.show{ display:flex; }
+    .ok{ color: #22c55e; font-weight: 900; }
+
+    /* Acessibilidade: foco */
+    a:focus{ outline: 2px solid rgba(41,199,255,.65); outline-offset: 2px; border-radius: 12px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="emoji">🍆</div>
+      <div class="title">PLATAFORMAS<br/>DA DY</div>
+      <div class="subtitle">Faça seu cadastro e tente sua<br/>fezinha</div>
+      <div class="note">
+        <span style="color:var(--warn);">⚠️</span>
+        <span>Resultados variam. Não há garantia de ganhos.</span>
+      </div>
+    </header>
+
+    <main class="grid" id="grid"></main>
+
+    <div class="hr"></div>
+
+    <footer>
+      © 2024 PLATAFORMAS DA DY - Todos os direitos reservados<br/>
+      Este é um site demonstrativo. Jogue com responsabilidade.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="ok">✅</span>
+    <span id="toastMessage">Clique registrado!</span>
+  </div>
+
+  <script>
+    // ============================================================
+    // CONFIG
+    // - Se no seu server.js a rota for /api/track, troque abaixo.
+    // ============================================================
+    const CLICK_ENDPOINT = '/api/click';
+
+    // Lista final (13 links) — fornecida por você
+    const platforms = [
+      { id: 'dificilpg',  name: 'DifícilPG',  url: 'https://www.dificilpg.com/?id=820678895',  icon: 'fa-dice',                   color: 'pink' },
+      { id: 'livrariapg', name: 'LivrariaPG', url: 'https://www.livrariapg.com/?id=218911262', icon: 'fa-book',                   color: 'blue' },
+      { id: 'vidropg',    name: 'VidroPG',    url: 'https://www.vidropg.com/?id=346124845',   icon: 'fa-glass-whiskey',          color: 'yellow' },
+      { id: 'onigiripg',  name: 'OnigiriPG',  url: 'https://www.onigiripg.com/?id=903377037', icon: 'fa-star',                   color: 'pink' },
+      { id: 'menupg',     name: 'MenuPG',     url: 'https://www.menupg.com/?id=195155807',    icon: 'fa-utensils',               color: 'blue' },
+      { id: 'dormirpg',   name: 'DormirPG',   url: 'https://www.dormirpg.com/?id=960234379',  icon: 'fa-bed',                    color: 'yellow' },
+      { id: 'vagapg',     name: 'VagaPG',     url: 'https://www.vagapg.com/?id=425396638',    icon: 'fa-briefcase',              color: 'pink' },
+      { id: 'reuniaopg',  name: 'ReuniãoPG',  url: 'https://www.reuniaopg.com/?id=331002292', icon: 'fa-users',                  color: 'blue' },
+      { id: 'pintarpg',   name: 'PintarPG',   url: 'https://www.pintarpg.com/?id=779370892',  icon: 'fa-palette',                color: 'yellow' },
+      { id: 'alunopg',    name: 'AlunoPG',    url: 'https://www.alunopg.com/?id=451359576',   icon: 'fa-graduation-cap',         color: 'pink' },
+      { id: 'quadrapg',   name: 'QuadraPG',   url: 'https://www.quadrapg.com/?id=614739332',  icon: 'fa-th-large',               color: 'blue' },
+      { id: 'sinalpg',    name: 'SinalPG',    url: 'https://www.sinalpg.com/?id=923101048',   icon: 'fa-signal',                 color: 'yellow' },
+      { id: 'debaixopg',  name: 'DebaixoPG',  url: 'https://www.debaixopg.com/?id=908763056', icon: 'fa-arrow-down',             color: 'pink' }
+    ];
+
+    function showToast(message) {
+      const msg = document.getElementById('toastMessage');
+      const toast = document.getElementById('toast');
+      if (msg) msg.textContent = message;
+      if (!toast) return;
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1300);
+    }
+
+    // Registra o clique SEM travar a navegação.
+    // O link abre porque é <a href="...">.
+    function registerClick(platformId, platformName, platformUrl) {
+      if (!platformUrl || !(platformUrl.startsWith('http://') || platformUrl.startsWith('https://'))) {
+        showToast('Link inválido.');
+        return;
+      }
+
+      const payload = {
+        platform_id: platformId,
+        platform_name: platformName,
+        platform_url: platformUrl,
+        ts: Date.now()
+      };
+
+      try {
+        navigator.sendBeacon(
+          CLICK_ENDPOINT,
+          new Blob([JSON.stringify(payload)], { type: 'application/json' })
+        );
+      } catch (e) {
+        try {
+          fetch(CLICK_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          }).catch(() => {});
+        } catch (e2) {}
+      }
+
+      showToast('Clique registrado!');
+    }
+
+    function iconHTML(p) {
+      const icon = (p.icon || 'fa-link').trim();
+      return `<i class="fa-solid ${icon}" aria-hidden="true"></i>`;
+    }
+
+    function escapeHTML(s) {
+      return String(s || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function render() {
+      const grid = document.getElementById('grid');
+      if (!grid) return;
+
+      grid.innerHTML = platforms.map(p => {
+        const safeUrl = escapeHTML(p.url);
+        const safeName = escapeHTML(p.name);
+        const safeId = escapeHTML(p.id);
+        const safeColor = (p.color || 'blue').replace(/[^a-z]/g, '') || 'blue';
+
+        return `
+          <div class="card">
+            <div class="left">
+              <div class="icon ${safeColor}">${iconHTML(p)}</div>
+              <div class="meta">
+                <p class="name">${safeName}</p>
+                <p class="small">Clique para se cadastrar</p>
+              </div>
+            </div>
+
+            <!-- Link real = abre no iPhone sem bloqueio -->
+            <a class="btn"
+               href="${safeUrl}"
+               rel="noopener noreferrer nofollow"
+               onclick="registerClick('${safeId}','${safeName}','${safeUrl}')">
+              CADASTRE-SE
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    render();
+  </script>
+</body>
+</html>
