@@ -234,7 +234,41 @@
         }
 
         // // ===============================
-// Registrar clique (CORRIGIDO iPhone)
+// function registerClick(platformId, platformName, platformUrl) {
+  if (!platformUrl || !(platformUrl.startsWith("http://") || platformUrl.startsWith("https://"))) {
+    showToast("Link inválido.");
+    return;
+  }
+
+  // 1) ABRE NA MESMA ABA (não é bloqueado no iPhone)
+  window.location.href = platformUrl;
+
+  // 2) Registra SEM await (em background)
+  const payload = {
+    platform_id: platformId,
+    platform_name: platformName,
+    platform_url: platformUrl,
+    ts: Date.now()
+  };
+
+  try {
+    navigator.sendBeacon(
+      "/api/click",
+      new Blob([JSON.stringify(payload)], { type: "application/json" })
+    );
+  } catch (e) {
+    fetch("/api/click", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  }
+
+  // opcional
+  showToast("Clique registrado!");
+}
+ (CORRIGIDO iPhone)
 // ===============================
 function registerClick(platformId, platformName, platformUrl) {
   // 0) valida URL
